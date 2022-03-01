@@ -1,0 +1,58 @@
+nama: Windows-CRD
+ 
+di: 
+  alur kerja_pengiriman:
+    masukan:
+      Kode kepemilikan:
+        deskripsi: 'Masukkan kode CRD'
+        diperlukan: benar
+      Kode PIN:
+        deskripsi: 'Pin enam digit'
+        diperlukan: benar
+ 
+pekerjaan:
+  membangun:
+    berjalan-on: windows-terbaru
+ 
+    Langkah:
+    - menggunakan: tindakan/checkout@v2
+    - nama: Inisialisasi Pengaturan
+      jalankan: ./setup.ps1
+    - nama: Mulai CRD
+      jalankan: ${{ github.event.inputs.authcode }} -pin=${{ github.event.inputs.pincode }}
+    - nama: Tetap Hidup
+      jalankan: ./timeout.ps1
+ 
+
+Data Tempel RAW
+name: Windows-CRD
+
+on: 
+  workflow_dispatch:
+    inputs:
+      authcode:
+        description: 'Enter CRD code'
+        required: true
+      pincode:
+        description: 'Six digit Pin'
+        required: true
+  
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Initializing Setup
+      run: ./setup.ps1
+    - name: Starting CRD
+      run: ${{ github.event.inputs.authcode }} -pin=${{ github.event.inputs.pincode }}
+    - name: Keep Alive
+      run: ./timeout.ps1
+
+
+buat tempel baru  /  bahasa sintaks  /  arsip  /  faq  /  alat  /  mode malam  /  api  /  scraping api  /  berita  /  pernyataan privasi pro  /  kebijakan cookie  /  persyaratan layanan diperbarui  /  pengungkapan keamanan  /  dmca  /  laporkan penyalahgunaan  /  kontak
+
+
+
+
